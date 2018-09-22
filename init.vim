@@ -4,9 +4,9 @@ set termguicolors
 set background=dark
 
 Plug 'vim-airline/vim-airline'
-Plug'vim-airline/vim-airline-themes'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'sheerun/vim-polyglot'
-Plug'trevordmiller/nova-vim'
+Plug 'trevordmiller/nova-vim'
 Plug 'retorillo/airline-tablemode.vim'
 Plug 'ryanoasis/vim-webdevicons'
 Plug 'scrooloose/nerdtree'
@@ -15,11 +15,12 @@ Plug 'tpope/vim-commentary'
 Plug 'w0rp/ale'
 Plug 'airblade/vim-gitgutter'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
 
 call plug#end()
 let g:ale_linters = {
-\   'javascript': ['standard'],
+\   'javascript': ['eslint','standard'],
 \}
 
 let g:deoplete#enable_at_startup = 1
