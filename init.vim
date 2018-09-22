@@ -17,6 +17,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 
 call plug#end()
 let g:ale_linters = {
