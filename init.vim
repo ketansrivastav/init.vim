@@ -14,11 +14,15 @@ Plug 'tpope/vim-surround'                 " Change word surroundings
 Plug 'tpope/vim-commentary' 
 Plug 'w0rp/ale'
 Plug 'airblade/vim-gitgutter'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+
 
 call plug#end()
 let g:ale_linters = {
 \   'javascript': ['standard'],
 \}
+
+let g:deoplete#enable_at_startup = 1
 
 " Use a slightly slimmer error pointer
 let g:ale_sign_error = '✖'
