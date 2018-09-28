@@ -18,28 +18,42 @@ Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-
+"Plug 'mhinz/vim-signify'
+Plug 'tpope/vim-fugitive'
+Plug 'NLKNguyen/papercolor-theme'
 call plug#end()
 let g:ale_linters = {
 \   'javascript': ['eslint','standard'],
 \}
 
-let g:deoplete#enable_at_startup = 1
-
-" Use a slightly slimmer error pointer
-let g:ale_sign_error = '✖'
-hi ALEErrorSign guifg=#DF8C8C
-let g:ale_sign_warning = '⚠'
-hi ALEWarningSign guifg=#F2C38F
-let g:ale_echo_msg_format = '%linter% says %s'
 let g:ale_fixers = ['standard']
 
-colorscheme nova    
+let g:deoplete#enable_at_startup = 1
+
+" colorscheme nova   
+ set background=light
+colorscheme PaperColor
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_theme='powerlineish'
 "let g:airline#extensions#tabline#show_tab_nr = 1
 "let g:airline#extensions#tabline#tab_nr_type= 2
+
+" Use a slightly slimmer error pointer
+let g:ale_sign_error = '✖'
+hi! ALEErrorSign guifg=#fd0000 ctermfg=167
+let g:ale_sign_warning = '⚠'
+hi! ALEWarningSign guifg=#F2C38F ctermfg=221
+let g:ale_echo_msg_format = '%linter% : %s'
+
+
+" folding
+set foldmethod=syntax
+set foldcolumn=1
+let javascript_fold=1
+set foldlevelstart=99
+
+set number
 "let g:airline#extensions#tabline#show_tab_type = 1
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 tnoremap <Esc> <C-\><C-n>
