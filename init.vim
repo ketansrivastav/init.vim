@@ -3,7 +3,7 @@ set background=dark
 call plug#begin('~/.config/nvim/plugged')
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-"Plug 'sheerun/vim-polyglot'
+" Plug 'sheerun/vim-polyglot'
 Plug 'trevordmiller/nova-vim'
 Plug 'retorillo/airline-tablemode.vim'
 Plug 'ryanoasis/vim-webdevicons'
@@ -22,7 +22,8 @@ Plug 'haya14busa/incsearch.vim'
 " LanguageClient plugin
 Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-"Plug 'mxw/vim-jsx'
+Plug 'prettier/vim-prettier', { 'do': 'npm install' }
+" Plug 'mxw/vim-jsx'
 call plug#end()
 
 let g:deoplete#enable_at_startup = 1
