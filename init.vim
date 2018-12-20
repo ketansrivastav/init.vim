@@ -27,7 +27,7 @@ Plug 'prettier/vim-prettier', { 'do': 'npm install' }
 Plug 'kien/ctrlp.vim'
 "clojure plugins
 Plug 'tpope/vim-fireplace' 
-
+Plug 'luochen1990/rainbow'
 call plug#end()
 
 let g:deoplete#enable_at_startup = 1
@@ -38,7 +38,7 @@ let g:ale_linters = {
 \}
 
 let g:ale_fixers = ['standard']
-
+let g:rainbow_active = 1
 
 colorscheme nova   
 "set background=light
