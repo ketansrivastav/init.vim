@@ -24,11 +24,15 @@ Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'prettier/vim-prettier', { 'do': 'npm install' }
 " Plug 'mxw/vim-jsx'
+Plug 'kien/ctrlp.vim'
+"clojure plugins
+Plug 'tpope/vim-fireplace' 
+
 call plug#end()
 
 let g:deoplete#enable_at_startup = 1
 let g:LanguageClient_autoStart = 1
-
+let g:ctrlp_working_path_mode = 0
 let g:ale_linters = {
 \   'javascript': ['eslint','standard'],
 \}
@@ -90,3 +94,8 @@ set tabstop=2
 set softtabstop=2
 " when indenting with '>', use 2 spaces width
 set shiftwidth=2
+
+noremap <Up> <NOP>
+noremap <Down> <NOP>
+noremap <Left> <NOP>
+noremap <Right> <NOP>
