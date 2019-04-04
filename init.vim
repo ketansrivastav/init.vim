@@ -20,25 +20,30 @@ Plug 'tpope/vim-fugitive'
 "Plug 'NLKNguyen/papercolor-theme'
 Plug 'haya14busa/incsearch.vim'
 "    Plug 'jeffkreeftmeijer/vim-numbertoggle'
-" LanguageClient plugin
-Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" " LanguageClient plugin
+" Plug 'autozimu/LanguageClient-neovim', {
+"     \ 'branch': 'next',
+"     \ 'do': 'bash install.sh',
+"     \ }
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'prettier/vim-prettier', { 'do': 'npm install' }
 " Plug 'mxw/vim-jsx'
 Plug 'kien/ctrlp.vim'
 "clojure plugins
 Plug 'tpope/vim-fireplace' 
 Plug 'luochen1990/rainbow'
+Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 call plug#end()
 
-let g:deoplete#enable_at_startup = 1
-let g:LanguageClient_autoStart = 1
+" let g:deoplete#enable_at_startup = 1
+" let g:LanguageClient_autoStart = 1
 let g:ctrlp_working_path_mode = 0
 let g:ale_linters = {
 \   'javascript': ['eslint','standard'],
 \}
 
 let g:ale_fixers = ['standard']
+" let g:ale_set_highlights = 0
 let g:rainbow_active = 1
 
 colorscheme nova   
@@ -75,19 +80,7 @@ map <C-n> :NERDTreeToggle<CR>
 
 " Automatically start language servers.
 " Minimal LSP configuration for JavaScript
-let g:LanguageClient_serverCommands = {}
-if executable('javascript-typescript-stdio')
-  set hidden
-
-  let g:LanguageClient_serverCommands = {
-    \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
-    \ 'javascript.jsx': ['/usr/local/bin/javascript-typescript-stdio'],
-    \ }
-
-else
-  echo "javascript-typescript-stdio not installed!\n"
-  :cq
-endif
+" let g:LanguageClient_serverCommands = {}
 " On pressing tab, insert 2 spaces
 set expandtab
 " show existing tab with 2 spaces width
@@ -95,6 +88,13 @@ set tabstop=2
 set softtabstop=2
 " when indenting with '>', use 2 spaces width
 set shiftwidth=2
+
+nnoremap <leader>] :bn <cr>
+nnoremap <leader>[ :bp <cr>
+set wildcharm=<Tab>
+set wildmenu
+set wildmode=full
+nnoremap <Tab> :buffer<Space><Tab>
 
 noremap <Up> <NOP>
 noremap <Down> <NOP>
