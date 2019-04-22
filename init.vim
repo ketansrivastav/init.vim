@@ -11,7 +11,6 @@ Plug 'ryanoasis/vim-webdevicons'
 Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-surround'                 " Change word surroundings
 Plug 'tpope/vim-commentary' 
-Plug 'w0rp/ale'
 Plug 'airblade/vim-gitgutter'
 Plug 'pangloss/vim-javascript'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -33,17 +32,14 @@ Plug 'kien/ctrlp.vim'
 Plug 'tpope/vim-fireplace' 
 Plug 'luochen1990/rainbow'
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+Plug 'rbgrouleff/bclose.vim'
+Plug 'francoiscabrol/ranger.vim'
 call plug#end()
 
 " let g:deoplete#enable_at_startup = 1
 " let g:LanguageClient_autoStart = 1
 let g:ctrlp_working_path_mode = 0
-let g:ale_linters = {
-\   'javascript': ['eslint','standard'],
-\}
 
-let g:ale_fixers = ['standard']
-" let g:ale_set_highlights = 0
 let g:rainbow_active = 1
 
 colorscheme nova   
@@ -55,12 +51,6 @@ let g:airline_theme='powerlineish'
 "let g:airline#extensions#tabline#show_tab_nr = 1
 "let g:airline#extensions#tabline#tab_nr_type= 2
 
-" Use a slightly slimmer error pointer
-let g:ale_sign_error = '✖'
-hi! ALEErrorSign guifg=#DF8C8C ctermfg=167
-let g:ale_sign_warning = '⚠'
-hi! ALEWarningSign guifg=#F2C38F ctermfg=221
-let g:ale_echo_msg_format = '%linter% : %s'
 
 
 " folding
@@ -78,10 +68,6 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 tnoremap <Esc> <C-\><C-n>
 map <C-n> :NERDTreeToggle<CR>
 
-" Automatically start language servers.
-" Minimal LSP configuration for JavaScript
-" let g:LanguageClient_serverCommands = {}
-" On pressing tab, insert 2 spaces
 set expandtab
 " show existing tab with 2 spaces width
 set tabstop=2
@@ -96,6 +82,14 @@ set wildmenu
 set wildmode=full
 nnoremap <Tab> :buffer<Space><Tab>
 
+set hidden
+
+call coc#config('coc.preferences', {
+  \   'diagnostic.errorSign'  : '✖',
+  \   'diagnostic.warningSign': '⚠',
+  \ 'diagnostic.infoSign'   : 'i',
+  \   'diagnostic.hintSign'   : 'ﯦ',
+  \})
 noremap <Up> <NOP>
 noremap <Down> <NOP>
 noremap <Left> <NOP>
