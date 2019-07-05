@@ -5,6 +5,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 " Plug 'sheerun/vim-polyglot'
 Plug 'trevordmiller/nova-vim'
+Plug 'joshdick/onedark.vim'
 Plug  'cocopon/iceberg.vim'
 Plug 'retorillo/airline-tablemode.vim'
 Plug 'ryanoasis/vim-webdevicons'
@@ -16,17 +17,8 @@ Plug 'pangloss/vim-javascript'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'mhinz/vim-signify'
 Plug 'tpope/vim-fugitive'
-"Plug 'NLKNguyen/papercolor-theme'
 Plug 'haya14busa/incsearch.vim'
-"    Plug 'jeffkreeftmeijer/vim-numbertoggle'
-" " LanguageClient plugin
-" Plug 'autozimu/LanguageClient-neovim', {
-"     \ 'branch': 'next',
-"     \ 'do': 'bash install.sh',
-"     \ }
-" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'prettier/vim-prettier', { 'do': 'npm install' }
-" Plug 'mxw/vim-jsx'
 Plug 'kien/ctrlp.vim'
 "clojure plugins
 Plug 'tpope/vim-fireplace' 
@@ -35,7 +27,7 @@ Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 Plug 'rbgrouleff/bclose.vim'
 Plug 'francoiscabrol/ranger.vim'
 call plug#end()
-
+  set statusline+=%-10.3n\  
 " let g:deoplete#enable_at_startup = 1
 " let g:LanguageClient_autoStart = 1
 let g:ctrlp_working_path_mode = 0
@@ -90,6 +82,10 @@ call coc#config('coc.preferences', {
   \ 'diagnostic.infoSign'   : 'i',
   \   'diagnostic.hintSign'   : 'ﯦ',
   \})
+:imap jk <Esc>
+nnoremap <C-c> :bp\|bd #<CR>
+:command! W w
+nmap <Leader>b :CtrlPBuffer<CR>
 noremap <Up> <NOP>
 noremap <Down> <NOP>
 noremap <Left> <NOP>
