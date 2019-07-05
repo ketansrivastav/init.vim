@@ -9,7 +9,7 @@ Plug 'joshdick/onedark.vim'
 Plug  'cocopon/iceberg.vim'
 Plug 'retorillo/airline-tablemode.vim'
 Plug 'ryanoasis/vim-webdevicons'
-Plug 'scrooloose/nerdtree'
+" Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-surround'                 " Change word surroundings
 Plug 'tpope/vim-commentary' 
 Plug 'airblade/vim-gitgutter'
@@ -56,9 +56,9 @@ set number
 " Highlight search matches
 set hlsearch
 "let g:airline#extensions#tabline#show_tab_type = 1
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+" autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 tnoremap <Esc> <C-\><C-n>
-map <C-n> :NERDTreeToggle<CR>
+" map <C-n> :NERDTreeToggle<CR>
 
 set expandtab
 " show existing tab with 2 spaces width
@@ -82,6 +82,12 @@ call coc#config('coc.preferences', {
   \ 'diagnostic.infoSign'   : 'i',
   \   'diagnostic.hintSign'   : 'ﯦ',
   \})
+" when running at every change you may want to disable quickfix
+let g:prettier#quickfix_enabled = 0
+
+let g:prettier#autoformat = 0
+autocmd BufWritePre,TextChanged,InsertLeave *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
+
 :imap jk <Esc>
 nnoremap <C-c> :bp\|bd #<CR>
 :command! W w
