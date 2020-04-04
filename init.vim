@@ -7,9 +7,14 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'trevordmiller/nova-vim'
 Plug 'joshdick/onedark.vim'
 Plug  'cocopon/iceberg.vim'
+Plug 'morhetz/gruvbox'
 Plug 'retorillo/airline-tablemode.vim'
 Plug 'ryanoasis/vim-webdevicons'
-" Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdtree'
+" Plug 'tsony-tsonev/nerdtree-git-plugin'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'ryanoasis/vim-devicons'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'tpope/vim-surround'                 " Change word surroundings
 Plug 'tpope/vim-commentary' 
 Plug 'airblade/vim-gitgutter'
@@ -31,10 +36,11 @@ call plug#end()
 " let g:deoplete#enable_at_startup = 1
 " let g:LanguageClient_autoStart = 1
 let g:ctrlp_working_path_mode = 0
+let g:NERDTreeGitStatusWithFlags = 1
 
 let g:rainbow_active = 1
 
-colorscheme nova   
+colorscheme gruvbox 
 "set background=light
 "colorscheme PaperColor
 let g:airline_powerline_fonts = 1
@@ -42,7 +48,6 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline_theme='powerlineish'
 "let g:airline#extensions#tabline#show_tab_nr = 1
 "let g:airline#extensions#tabline#tab_nr_type= 2
-
 
 
 " folding
@@ -58,7 +63,6 @@ set hlsearch
 "let g:airline#extensions#tabline#show_tab_type = 1
 " autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 tnoremap <Esc> <C-\><C-n>
-" map <C-n> :NERDTreeToggle<CR>
 
 set expandtab
 " show existing tab with 2 spaces width
@@ -126,6 +130,24 @@ endfunction
 command! -nargs=0 FloaterOpen call Exec(&shell, v:false)
 
 command! -nargs=0 FloaterToggle call Toggle()
+ 
+" " sync open file with NERDTree
+" " " Check if NERDTree is open or active
+" function! IsNERDTreeOpen()        
+"   return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
+" endfunction
+
+" " Call NERDTreeFind iff NERDTree is active, current window contains a modifiable
+" " file, and we're not in vimdiff
+" function! SyncTree()
+"   if &modifiable && IsNERDTreeOpen() && strlen(expand('%')) > 0 && !&diff
+"     NERDTreeFind
+"     wincmd p
+"   endif
+" endfunction
+
+" " Highlight currently open buffer in NERDTree
+" autocmd BufEnter * call SyncTree()
 
 
 call coc#config('coc.preferences', {
@@ -134,18 +156,75 @@ call coc#config('coc.preferences', {
   \ 'diagnostic.infoSign'   : 'i',
   \   'diagnostic.hintSign'   : 'ﯦ',
   \})
+let g:coc_global_extensions = [
+  \ 'coc-pairs',
+  \ 'coc-eslint', 
+  \ 'coc-json', 
+  \ 'coc-tabnine'
+  \ ]
 " when running at every change you may want to disable quickfix
 let g:prettier#quickfix_enabled = 0
 
 let g:prettier#autoformat = 0
 autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
+function! s:swap_lines(n1, n2)
+    let line1 = getline(a:n1)
+    let line2 = getline(a:n2)
+    call setline(a:n1, line2)
+    call setline(a:n2, line1)
+endfunction
+
+function! s:swap_up()
+    let n = line('.')
+    if n == 1
+        return
+    endif
+
+    call s:swap_lines(n, n - 1)
+    exec n - 1
+endfunction
+
+function! s:swap_down()
+    let n = line('.')
+    if n == line('$')
+        return
+    endif
+
+    call s:swap_lines(n, n + 1)
+    exec n + 1
+endfunction
+
+
+fu! SaveSess()
+    execute 'mksession! ' . getcwd() . '/.session.vim'
+endfunction
+
+fu! RestoreSess()
+if filereadable(getcwd() . '/.session.vim')
+    execute 'so ' . getcwd() . '/.session.vim'
+    if bufexists(1)
+        for l in range(1, bufnr('$'))
+            if bufwinnr(l) == -1
+                exec 'sbuffer ' . l
+            endif
+        endfor
+    endif
+endif
+endfunction
+
+autocmd VimLeave * call SaveSess()
+autocmd VimEnter * nested call RestoreSess()
+
+noremap <silent> <c-j> :call <SID>swap_up()<CR>
+noremap <silent> <c-k> :call <SID>swap_down()<CR>
 " ,TextChanged,InsertLeave 
 :imap jk <Esc>
-nnoremap <C-c> :bp\|bd #<CR>
+" nnoremap <C-c> :bp\|bd #<CR>
 :command! W w
 nnoremap <Esc> :call Toggle()<CR>
 nmap <Leader>b :CtrlPBuffer<CR>
-noremap <Up> <NOP>
-noremap <Down> <NOP>
-noremap <Left> <NOP>
-noremap <Right> <NOP>
+" noremap <Up> <NOP>
+" noremap <Down> <NOP>
+" noremap <Left> <NOP>
+" noremap <Right> <NOP>
+nmap <C-n> :NERDTreeToggle<CR>
