@@ -28,6 +28,11 @@ Plug 'kien/ctrlp.vim'
 "clojure plugins
 Plug 'tpope/vim-fireplace' 
 Plug 'luochen1990/rainbow'
+Plug 'tpope/vim-sexp-mappings-for-regular-people'
+Plug 'guns/vim-sexp'
+Plug 'tpope/vim-repeat'
+
+" -- -- Plug 'vim-scripts/paredit.vim'
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 Plug 'rbgrouleff/bclose.vim'
 Plug 'francoiscabrol/ranger.vim'
@@ -157,7 +162,6 @@ call coc#config('coc.preferences', {
   \   'diagnostic.hintSign'   : 'ﯦ',
   \})
 let g:coc_global_extensions = [
-  \ 'coc-pairs',
   \ 'coc-eslint', 
   \ 'coc-json', 
   \ 'coc-tabnine'
