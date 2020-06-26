@@ -154,6 +154,12 @@ command! -nargs=0 FloaterToggle call Toggle()
 " " Highlight currently open buffer in NERDTree
 " autocmd BufEnter * call SyncTree()
 
+" ================
+" returns true iff is NERDTree open/active
+" ================
+
+
+"autocmd BufEnter * silent! if bufname('%') !~# 'NERD_tree_' | cd %:p:h | NERDTreeCWD | wincmd p | endif
 
 call coc#config('coc.preferences', {
   \   'diagnostic.errorSign'  : '✖',
@@ -225,7 +231,7 @@ noremap <silent> <c-k> :call <SID>swap_down()<CR>
 :imap jk <Esc>
 " nnoremap <C-c> :bp\|bd #<CR>
 :command! W w
-nnoremap <Esc> :call Toggle()<CR>
+nnoremap <space> :call Toggle()<CR>
 nmap <Leader>b :CtrlPBuffer<CR>
 " noremap <Up> <NOP>
 " noremap <Down> <NOP>
