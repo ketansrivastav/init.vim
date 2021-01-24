@@ -31,7 +31,10 @@ Plug 'luochen1990/rainbow'
 Plug 'tpope/vim-sexp-mappings-for-regular-people'
 Plug 'guns/vim-sexp'
 Plug 'tpope/vim-repeat'
-
+" Markdown"
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown'
+Plug 'NLKNguyen/papercolor-theme'
 " -- -- Plug 'vim-scripts/paredit.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'rbgrouleff/bclose.vim'
@@ -45,9 +48,13 @@ let g:NERDTreeGitStatusWithFlags = 1
 
 let g:rainbow_active = 1
 
-colorscheme gruvbox 
-"set background=light
-"colorscheme PaperColor
+"colorscheme gruvbox 
+""set background=light
+""colorscheme PaperColor
+set t_Co=256   " This is may or may not needed.
+
+set background=light
+colorscheme PaperColor
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_theme='powerlineish'
