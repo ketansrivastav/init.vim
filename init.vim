@@ -74,9 +74,11 @@ lua require'colorizer'.setup()
 set background=light
 colorscheme PaperColor
 set number
-set cursorline
-hi cursorline cterm=none
-hi cursorlinenr ctermfg=red
+hi CursorLine   cterm=NONE ctermbg=darkred ctermfg=white guibg=darkred guifg=white
+
+" set cursorline
+" hi cursorline cterm=none
+" hi cursorlinenr ctermfg=black
 " let g:conoline_auto_enable = 1
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
@@ -252,8 +254,8 @@ endfunction
 " endif
 " endfunction
 
-autocmd VimLeave * call SaveSess()
-autocmd VimEnter * nested call RestoreSess()
+" autocmd VimLeave * call SaveSess()
+" autocmd VimEnter * nested call RestoreSess()
 " coc mapping"
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
