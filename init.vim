@@ -1,5 +1,5 @@
 set termguicolors
-set background=dark
+" set background=dark
 let g:clipboard = {
   \   'name': 'xclip-xfce4-clipman',
   \   'copy': {
@@ -53,6 +53,8 @@ Plug 'rbgrouleff/bclose.vim'
 Plug 'francoiscabrol/ranger.vim'
 
 Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
+" Plug 'miyakogi/conoline.vim'
+Plug 'norcalli/nvim-colorizer.lua'
 call plug#end()
   set statusline+=%-10.3n\  
 " let g:deoplete#enable_at_startup = 1
@@ -65,10 +67,17 @@ let g:rainbow_active = 1
 "colorscheme gruvbox 
 ""set background=light
 ""colorscheme PaperColor
-set t_Co=256   " This is may or may not needed.
+" set t_Co=256   " This is may or may not needed.
+
+lua require'colorizer'.setup()
 
 set background=light
 colorscheme PaperColor
+set number
+set cursorline
+hi cursorline cterm=none
+hi cursorlinenr ctermfg=red
+" let g:conoline_auto_enable = 1
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_theme='powerlineish'
@@ -226,22 +235,22 @@ function! s:swap_down()
 endfunction
 
 
-fu! SaveSess()
-    execute 'mksession! ' . getcwd() . '/.session.vim'
-endfunction
+" fu! SaveSess()
+"     execute 'mksession! ' . getcwd() . '/.session.vim'
+" endfunction
 
-fu! RestoreSess()
-if filereadable(getcwd() . '/.session.vim')
-    execute 'so ' . getcwd() . '/.session.vim'
-    if bufexists(1)
-        for l in range(1, bufnr('$'))
-            if bufwinnr(l) == -1
-                exec 'sbuffer ' . l
-            endif
-        endfor
-    endif
-endif
-endfunction
+" fu! RestoreSess()
+" if filereadable(getcwd() . '/.session.vim')
+"     execute 'so ' . getcwd() . '/.session.vim'
+"     if bufexists(1)
+"         for l in range(1, bufnr('$'))
+"             if bufwinnr(l) == -1
+"                 exec 'sbuffer ' . l
+"             endif
+"         endfor
+"     endif
+" endif
+" endfunction
 
 autocmd VimLeave * call SaveSess()
 autocmd VimEnter * nested call RestoreSess()
