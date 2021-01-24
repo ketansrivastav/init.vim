@@ -38,7 +38,8 @@ Plug 'haya14busa/incsearch.vim'
 " Plug 'prettier/vim-prettier', { 'do': 'npm install' }
 Plug 'kien/ctrlp.vim'
 "clojure plugins
-Plug 'tpope/vim-fireplace' 
+" Plug 'tpope/vim-fireplace' 
+Plug 'Olical/conjure', {'tag': 'v4.12.0'}
 Plug 'luochen1990/rainbow'
 Plug 'tpope/vim-sexp-mappings-for-regular-people'
 Plug 'guns/vim-sexp'
