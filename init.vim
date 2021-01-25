@@ -40,6 +40,7 @@ Plug 'kien/ctrlp.vim'
 "clojure plugins
 " Plug 'tpope/vim-fireplace' 
 Plug 'Olical/conjure', {'tag': 'v4.12.0'}
+Plug 'dmac/vim-cljfmt'
 Plug 'luochen1990/rainbow'
 Plug 'tpope/vim-sexp-mappings-for-regular-people'
 Plug 'guns/vim-sexp'
@@ -77,8 +78,13 @@ colorscheme PaperColor
 set number
 
 set cursorline
+"default
 hi CursorLine   cterm=NONE ctermbg=darkred ctermfg=white guibg=darkred guifg=white
+" Change Color when entering Insert Mode
+autocmd InsertEnter * hi  CursorLine ctermbg=green ctermfg=red guibg=green guifg=white
 
+" Revert Color to default when leaving Insert Mode
+autocmd InsertLeave * hi  CursorLine ctermbg=darkred ctermfg=white guibg=darkred guifg=white"
 " hi cursorline cterm=none
 " hi cursorlinenr ctermfg=black
 " let g:conoline_auto_enable = 1
