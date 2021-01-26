@@ -12,11 +12,7 @@
   "diagnostic.hintSign": "ﯦ'",
   "languageserver": {
     "clojure-lsp": {
-      "command": "bash",
-      "args": [
-        "c",
-        "clojure-lsp"
-      ],
+      "command": "clojure-lsp",
       "filetypes": [
         "clojure"
       ],

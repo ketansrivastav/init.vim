@@ -57,6 +57,7 @@ Plug 'francoiscabrol/ranger.vim'
 Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 " Plug 'miyakogi/conoline.vim'
 Plug 'norcalli/nvim-colorizer.lua'
+Plug 'voldikss/vim-floaterm'
 call plug#end()
   set statusline+=%-10.3n\  
 " let g:deoplete#enable_at_startup = 1
@@ -125,56 +126,7 @@ nnoremap <Tab> :buffer<Space><Tab>
 
 set hidden
 
-let g:loaded_floater = 1
-let g:floater_buf = -1
 
-function! Exec(command, close_on_open) abort
-    let znew_buf=v:false
-    if bufexists(g:floater_buf) == v:false
-        let znew_buf=v:true
-        let g:floater_buf = nvim_create_buf(v:false, v:true)
-        call setbufvar(g:floater_buf, '&signcolumn', 'no')
-        call setbufvar(g:floater_buf, '&number', '0')
-        call setbufvar(g:floater_buf, '&buflisted', '0')
-    endif
-
-    let width = &columns - 4
-    let height = (&lines / 2) + 10
-    "let offset = 1
-    let offset = (&lines / 2) - 20
-
-    let opts = {
-                \ 'relative': "editor",
-                \ 'row' : offset,
-                \ 'col' : 2,
-                \ 'width': width,
-                \ 'height': height
-                \}
-
-    call nvim_open_win(g:floater_buf, v:true, opts)
-    if znew_buf == v:true
-        call termopen(a:command)
-        if a:close_on_open == v:true
-            silent! exec 'bd'
-        endif
-    endif
-endfunction
-
-let g:toggleVar = "true"
-function! Toggle()
-    " if bufwinid(g:floater_buf) == -1
-    if g:toggleVar == "true"
-        call Exec(&shell, v:false)
-        let g:toggleVar = "false"
-    else
-        let g:toggleVar = "true"
-        silent! exec 'q'
-    endif
-endfunction
-
-command! -nargs=0 FloaterOpen call Exec(&shell, v:false)
-
-command! -nargs=0 FloaterToggle call Toggle()
  
 " " sync open file with NERDTree
 " " " Check if NERDTree is open or active
@@ -370,7 +322,6 @@ noremap <silent> <c-k> :call <SID>swap_down()<CR>
 :imap jk <Esc>
 " nnoremap <C-c> :bp\|bd #<CR>
 :command! W w
-nnoremap <space> :call Toggle()<CR>
 nmap <Leader>b :CtrlPBuffer<CR>
 " noremap <Up> <NOP>
 " noremap <Down> <NOP>
