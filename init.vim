@@ -34,6 +34,7 @@ Plug 'pangloss/vim-javascript'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'mhinz/vim-signify'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
 Plug 'haya14busa/incsearch.vim'
 " Plug 'prettier/vim-prettier', { 'do': 'npm install' }
 Plug 'kien/ctrlp.vim'
