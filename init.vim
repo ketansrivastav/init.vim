@@ -108,6 +108,7 @@ set number
 set hlsearch
 "let g:airline#extensions#tabline#show_tab_type = 1
 " autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+" to close terminal emulator
 tnoremap <Esc> <C-\><C-n>
 
 set expandtab

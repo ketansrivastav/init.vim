@@ -7,7 +7,7 @@
     "json"
   ],
   "diagnostic.errorSign": "✖",
-  "diagnostic.warningSign": "⚠'",
+  "diagnostic.warningSign": "⚠",
   "diagnostic.infoSign": "i",
   "diagnostic.hintSign": "ﯦ'",
   "languageserver": {
