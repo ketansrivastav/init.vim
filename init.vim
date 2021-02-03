@@ -337,8 +337,8 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
-noremap <silent> <c-j> :call <SID>swap_up()<CR>
-noremap <silent> <c-k> :call <SID>swap_down()<CR>
+noremap <silent> <c-k> :call <SID>swap_up()<CR>
+noremap <silent> <c-j> :call <SID>swap_down()<CR>
 " ,TextChanged,InsertLeave 
 :imap jk <Esc>
 " nnoremap <C-c> :bp\|bd #<CR>
