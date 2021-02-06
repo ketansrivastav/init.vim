@@ -344,6 +344,7 @@ noremap <silent> <c-j> :call <SID>swap_down()<CR>
 " nnoremap <C-c> :bp\|bd #<CR>
 :command! W w
 nmap <Leader>b :CtrlPBuffer<CR>
+map <Leader>s :setlocal spell spelllang=en_us <CR>
 " noremap <Up> <NOP>
 " noremap <Down> <NOP>
 " noremap <Left> <NOP>
