@@ -16,9 +16,6 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 " Plug 'sheerun/vim-polyglot'
-Plug 'trevordmiller/nova-vim'
-Plug 'joshdick/onedark.vim'
-Plug  'cocopon/iceberg.vim'
 Plug 'morhetz/gruvbox'
 Plug 'retorillo/airline-tablemode.vim'
 Plug 'ryanoasis/vim-webdevicons'
@@ -49,7 +46,14 @@ Plug 'tpope/vim-repeat'
 " Markdown"
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }}
+
+"themes
+Plug 'conweller/endarkened.vim'
 Plug 'NLKNguyen/papercolor-theme'
+Plug 'trevordmiller/nova-vim'
+Plug 'joshdick/onedark.vim'
+Plug  'cocopon/iceberg.vim'
 " -- -- Plug 'vim-scripts/paredit.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'rbgrouleff/bclose.vim'
@@ -68,6 +72,8 @@ let g:ctrlp_working_path_mode = 0
 let g:NERDTreeGitStatusWithFlags = 1
 
 let g:rainbow_active = 1
+" markdown: do not close the preview tab when switching to other buffers
+let g:mkdp_auto_close = 0
 
 "colorscheme gruvbox 
 ""set background=light
