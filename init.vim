@@ -79,7 +79,7 @@ lua require'colorizer'.setup()
 set background=light
 colorscheme PaperColor
 set number
-
+set guicursor=
 set cursorline
 "default
 hi CursorLine   cterm=NONE ctermbg=darkred ctermfg=white guibg=darkred guifg=white
