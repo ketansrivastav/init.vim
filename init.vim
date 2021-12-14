@@ -104,6 +104,7 @@ lua require'colorizer'.setup()
 colorscheme PaperColor
 set number
 set relativenumber
+set guicursor=
 set cursorline
 " sneak
 " case insensitive sneak
