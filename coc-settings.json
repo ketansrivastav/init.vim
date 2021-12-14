@@ -1,11 +1,5 @@
 {
-  "coc.preferences.formatOnSaveFiletypes": [
-    "javascript",
-    "typescript",
-    "css",
-    "scss",
-    "json"
-  ],
+  "coc.preferences.formatOnSaveFiletypes": ["js","css"],
   "diagnostic.errorSign": "✖",
   "diagnostic.warningSign": "⚠",
   "diagnostic.infoSign": "i",

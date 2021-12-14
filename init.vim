@@ -1,5 +1,6 @@
 set termguicolors
-" set background=dark
+set background=dark
+let g:goyo_width = 120
 let g:clipboard = {
   \   'name': 'xclip-xfce4-clipman',
   \   'copy': {
@@ -27,8 +28,9 @@ Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'tpope/vim-surround'                 " Change word surroundings
 Plug 'tpope/vim-commentary' 
 Plug 'airblade/vim-gitgutter'
-Plug 'pangloss/vim-javascript'
+" Plug 'pangloss/vim-javascript'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 Plug 'mhinz/vim-signify'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
@@ -42,12 +44,17 @@ Plug 'dmac/vim-cljfmt'
 Plug 'luochen1990/rainbow'
 Plug 'tpope/vim-sexp-mappings-for-regular-people'
 Plug 'guns/vim-sexp'
+
 Plug 'tpope/vim-repeat'
 " Markdown"
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }}
 
+Plug 'junegunn/goyo.vim'
+
+"c++
+Plug 'rhysd/vim-clang-format'
 "themes
 Plug 'conweller/endarkened.vim'
 Plug 'NLKNguyen/papercolor-theme'
@@ -64,7 +71,18 @@ Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'voldikss/vim-floaterm'
 Plug 'mhinz/vim-startify'
+Plug 'mbbill/undotree'
+Plug 'kdheepak/lazygit.nvim', { 'branch': 'nvim-v0.4.3' }
+Plug 'justinmk/vim-sneak'
+" Plug 'lukas-reineke/indent-blankline.nvim'
 call plug#end()
+" let mapleader = "\<space>"
+
+ " neovide
+let g:neovide_refresh_rate=140
+let g:neovide_cursor_vfx_mode = "pixiedust"
+let g:neovide_cursor_vfx_particle_phase=1.5
+
   set statusline+=%-10.3n\  
 " let g:deoplete#enable_at_startup = 1
 " let g:LanguageClient_autoStart = 1
@@ -82,11 +100,29 @@ let g:mkdp_auto_close = 0
 
 lua require'colorizer'.setup()
 
-set background=light
+"set background=light
 colorscheme PaperColor
 set number
-
+set relativenumber
 set cursorline
+" sneak
+" case insensitive sneak
+let g:sneak#use_ic_scs = 1
+" let g:sneak#s_next = 1
+let g:sneak#prompt = '🔎'
+
+if has("persistent_undo")
+   let target_path = expand('~/.config/nvim/.undodir')
+
+    " create the directory and any parent directories
+    " if the location does not exist.
+    if !isdirectory(target_path)
+        call mkdir(target_path, "p", 0700)
+    endif
+
+    let &undodir=target_path
+    set undofile
+endif
 "default
 hi CursorLine   cterm=NONE ctermbg=darkred ctermfg=white guibg=darkred guifg=white
 " Change Color when entering Insert Mode
@@ -153,7 +189,7 @@ nnoremap <Tab> :buffer<Space><Tab>
 
 set hidden
 
-
+" let g:clang_format#auto_format=1
  
 " " sync open file with NERDTree
 " " " Check if NERDTree is open or active
@@ -271,7 +307,6 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 nmap <leader>rn <Plug>(coc-rename)
 
 " Formatting selected code.
-xmap <leader>fd  <Plug>(coc-format-selected)
 nmap <leader>fd  <Plug>(coc-format-selected)
 
 augroup mygroup
@@ -284,8 +319,7 @@ augroup end
 
 " Applying codeAction to the selected region.
 " Example: `<leader>aap` for current paragraph
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
+" nmap <leader>a  <Plug>(coc-codeaction-selected)
 
 " Remap keys for applying codeAction to the current buffer.
 nmap <leader>ac  <Plug>(coc-codeaction)
@@ -321,7 +355,8 @@ command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organize
 " NOTE: Please see `:h coc-status` for integrations with external plugins that
 " provide custom statusline: lightline.vim, vim-airline.
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
-
+" Silver Searcher
+let g:ackprg = 'ag --nogroup --nocolor --column'
 " Mappings for CoCList
 " Show all diagnostics.
 nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
@@ -349,10 +384,33 @@ noremap <silent> <c-j> :call <SID>swap_down()<CR>
 :imap jk <Esc>
 " nnoremap <C-c> :bp\|bd #<CR>
 :command! W w
-nmap <Leader>b :CtrlPBuffer<CR>
+function! NumberToggle()
+  if(&relativenumber == 1)
+    set norelativenumber
+  else
+    set relativenumber
+  endif
+endfunc
+let g:fzf_layout = { 'window': { 'width': 1, 'height': 0.4, 'yoffset': 1, 'border': 'none' } } 
+
+let NERDTreeMinimalUI=1
+nnoremap <expr> <C-n>  g:NERDTree.IsOpen() ? "\:NERDTreeClose<CR>" : bufexists(expand('%')) ? "\:NERDTreeFind<CR>" : "\:NERDTree<CR>" 
+nmap <leader>g :Goyo<CR>
+nnoremap <leader>n :call NumberToggle()<cr>
+" Shift + J/K moves selected lines down/up in visual mode
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+
+noremap <Up> <NOP>
+noremap <Down> <NOP>
+noremap <Left> <NOP>
+nnoremap <Right> <NOP>
+nmap <leader>u :UndotreeToggle<CR>
+nmap <C-z> :BLines<CR>
+nmap <Leader>b :Buffers<CR>
+nmap <Leader>F :GFiles<CR>
+nmap <Leader>a :Ag<CR>
 map <Leader>s :setlocal spell spelllang=en_us <CR>
-" noremap <Up> <NOP>
-" noremap <Down> <NOP>
-" noremap <Left> <NOP>
-" noremap <Right> <NOP>
-nmap <C-n> :NERDTreeToggle<CR>
+nmap <C-a>:vnew \| r ! sh shellescape(expand('#')) <CR>
+nmap <leader>g :Goyo<CR>
+map gf :edit <cfile><CR>
