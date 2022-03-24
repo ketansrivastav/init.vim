@@ -66,7 +66,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'rbgrouleff/bclose.vim'
 Plug 'francoiscabrol/ranger.vim'
 
-Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
+" Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 " Plug 'miyakogi/conoline.vim'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'voldikss/vim-floaterm'
@@ -74,6 +74,7 @@ Plug 'mhinz/vim-startify'
 Plug 'mbbill/undotree'
 Plug 'kdheepak/lazygit.nvim', { 'branch': 'nvim-v0.4.3' }
 Plug 'justinmk/vim-sneak'
+Plug 'elihukter173/dirbuf.nvim'
 " Plug 'lukas-reineke/indent-blankline.nvim'
 call plug#end()
 " let mapleader = "\<space>"
