@@ -39,7 +39,7 @@ Plug 'haya14busa/incsearch.vim'
 Plug 'kien/ctrlp.vim'
 "clojure plugins
 " Plug 'tpope/vim-fireplace' 
-Plug 'Olical/conjure', {'tag': 'v4.12.0'}
+Plug 'Olical/conjure', {'tag': 'v4.35.1'}
 Plug 'dmac/vim-cljfmt'
 Plug 'luochen1990/rainbow'
 Plug 'tpope/vim-sexp-mappings-for-regular-people'
@@ -287,7 +287,7 @@ nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gt <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
@@ -394,6 +394,8 @@ function! NumberToggle()
   endif
 endfunc
 let g:fzf_layout = { 'window': { 'width': 1, 'height': 0.4, 'yoffset': 1, 'border': 'none' } } 
+
+command! -nargs=0 Prettier :CocCommand prettier.forceFormatDocument
 
 let NERDTreeMinimalUI=1
 nnoremap <expr> <C-n>  g:NERDTree.IsOpen() ? "\:NERDTreeClose<CR>" : bufexists(expand('%')) ? "\:NERDTreeFind<CR>" : "\:NERDTree<CR>" 
