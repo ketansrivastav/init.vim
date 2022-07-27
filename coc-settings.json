@@ -1,5 +1,9 @@
 {
   "coc.preferences.formatOnSaveFiletypes": ["js", "css", "ts", "jsx"],
+  "eslint.autoFixOnSave":true,
+  "eslint.run": "onSave",
+  "prettier.eslintIntegration": true,
+  "tsserver.formatOnType": true,
   "diagnostic.errorSign": "✖",
   "diagnostic.warningSign": "⚠",
   "diagnostic.infoSign": "i",
@@ -39,6 +43,47 @@
           "completionSnippetsOn": true
         }
       }
+    },
+     "purescript": {
+      "command": "purescript-language-server",
+      "args": ["--stdio"],
+      "filetypes": ["purescript"],
+      "trace.server": "off",
+      "rootPatterns": ["bower.json", "psc-package.json", "spago.dhall"],
+      "settings": {
+        "purescript": {
+          "addSpagoSources": true,
+          "addNpmPath": false // Set to true if using a local purty install for formatting
+          // etc
+        }
+      }
     }
-  }
+  },
+  "diagnostic-languageserver.linters": {
+    "clj_kondo_lint": {
+      "command": "clj-kondo",
+      "debounce": 100,
+      "args": [ "--lint", "%filepath"],
+      "offsetLine": 0,
+      "offsetColumn": 0,
+      "sourceName": "clj-kondo",
+      "formatLines": 1,
+      "formatPattern": [
+        "^[^:]+:(\\d+):(\\d+):\\s+([^:]+):\\s+(.*)$",
+        {
+          "line": 1,
+          "column": 2,
+          "message": 4,
+          "security": 3
+        }
+      ],
+      "securities": {
+        "error": "error",
+        "warning": "warning",
+        "note": "info"
+      } 
+
+    }
+  },
+  "diagnostic-languageserver.filetypes": {"clojure":"clj_kondo_lint"}
 }

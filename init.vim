@@ -38,7 +38,6 @@ Plug 'haya14busa/incsearch.vim'
 " Plug 'prettier/vim-prettier', { 'do': 'npm install' }
 Plug 'kien/ctrlp.vim'
 "clojure plugins
-" Plug 'tpope/vim-fireplace' 
 Plug 'Olical/conjure', {'tag': 'v4.35.1'}
 Plug 'dmac/vim-cljfmt'
 Plug 'luochen1990/rainbow'
@@ -76,6 +75,9 @@ Plug 'kdheepak/lazygit.nvim', { 'branch': 'nvim-v0.4.3' }
 Plug 'justinmk/vim-sneak'
 Plug 'elihukter173/dirbuf.nvim'
 " Plug 'lukas-reineke/indent-blankline.nvim'
+" copilot
+Plug 'github/copilot.vim'
+Plug 'purescript-contrib/purescript-vim'
 call plug#end()
 " let mapleader = "\<space>"
 
@@ -152,6 +154,7 @@ let g:startify_lists = [
 let g:startify_bookmarks = [
             \ { 'i': '~/.config/nvim/init.vim' },
             \ { 'z': '~/.zshrc' },
+            \ { 'c': '~/curl.sh' },
             \ ]
 let g:startify_session_autoload = 1
 let g:startify_session_delete_buffers = 1
@@ -232,7 +235,7 @@ let g:coc_global_extensions = [
 " when running at every change you may want to disable quickfix
 " let g:prettier#quickfix_enabled = 0
 
-" let g:prettier#autoformat = 0
+let g:prettier#autoformat = 0
 " autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
 function! s:swap_lines(n1, n2)
     let line1 = getline(a:n1)
@@ -287,7 +290,7 @@ nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gt <Plug>(coc-type-definition)
+nmap <silent> gtt <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
