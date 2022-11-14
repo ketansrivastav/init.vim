@@ -1,19 +1,20 @@
 set termguicolors
 set background=dark
 let g:goyo_width = 120
-let g:clipboard = {
-  \   'name': 'xclip-xfce4-clipman',
-  \   'copy': {
-  \      '+': 'xclip -selection clipboard',
-  \      '*': 'xclip -selection clipboard',
-  \    },
-  \   'paste': {
-  \      '+': 'xclip -selection clipboard -o',
-  \      '*': 'xclip -selection clipboard -o',
-  \   },
-  \   'cache_enabled': 1,
-  \ }
+" let g:clipboard = {
+"   \   'name': 'xclip-xfce4-clipman',
+"   \   'copy': {
+"   \      '+': 'xclip -selection clipboard',
+"   \      '*': 'xclip -selection clipboard',
+"   \    },
+"   \   'paste': {
+"   \      '+': 'xclip -selection clipboard -o',
+"   \      '*': 'xclip -selection clipboard -o',
+"   \   },
+"   \   'cache_enabled': 1,
+"   \ }
 call plug#begin('~/.config/nvim/plugged')
+Plug 'nvim-lua/plenary.nvim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 " Plug 'sheerun/vim-polyglot'
@@ -78,8 +79,15 @@ Plug 'elihukter173/dirbuf.nvim'
 " copilot
 Plug 'github/copilot.vim'
 Plug 'purescript-contrib/purescript-vim'
+
+Plug  'nvim-lua/plenary.nvim'
+Plug 'scalameta/coc-metals', {'do': 'yarn install --frozen-lockfile'}
+Plug 'scalameta/nvim-metals'
 call plug#end()
 " let mapleader = "\<space>"
+"
+"
+" vim.opt_global.shortmess:remove("F")
 
  " neovide
 let g:neovide_refresh_rate=140
@@ -312,8 +320,13 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 nmap <leader>rn <Plug>(coc-rename)
 
 " Formatting selected code.
-nmap <leader>fd  <Plug>(coc-format-selected)
+" nmap <leader>fd  <Plug>(coc-format-selected)
+" nmap <leader>fa  <Plug>(coc-format-buf)
 
+
+nnoremap <silent> cram      :call CocAction('runCommand', 'lsp-clojure-add-missing-libspec')<CR>
+nnoremap <silent> crcn      :call CocAction('runCommand', 'lsp-clojure-clean-ns')<CR>
+nnoremap <silent> crf      :call CocActionAsync('format')<CR>
 augroup mygroup
   autocmd!
   " Setup formatexpr specified filetype(s).
@@ -421,3 +434,89 @@ map <Leader>s :setlocal spell spelllang=en_us <CR>
 nmap <C-a>:vnew \| r ! sh shellescape(expand('#')) <CR>
 nmap <leader>g :Goyo<CR>
 map gf :edit <cfile><CR>
+
+" nnoremap <silent> gd          <cmd>lua vim.lsp.buf.definition()<CR>
+" nnoremap <silent> K           <cmd>lua vim.lsp.buf.hover()<CR>
+" nnoremap <silent> gi          <cmd>lua vim.lsp.buf.implementation()<CR>
+" nnoremap <silent> gr          <cmd>lua vim.lsp.buf.references()<CR>
+" nnoremap <silent> gds         <cmd>lua vim.lsp.buf.document_symbol()<CR>
+" nnoremap <silent> gws         <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+" nnoremap <silent> <leader>rn  <cmd>lua vim.lsp.buf.rename()<CR>
+" nnoremap <silent> <leader>fr   <cmd>lua vim.lsp.buf.formatting()<CR>
+" nnoremap <silent> <leader>ca  <cmd>lua vim.lsp.buf.code_action()<CR>
+" nnoremap <silent> <leader>ws  <cmd>lua require'metals'.worksheet_hover()<CR>
+" nnoremap <silent> <leader>a   <cmd>lua require'metals'.open_all_diagnostics()<CR>
+" nnoremap <silent> <space>d    <cmd>lua vim.lsp.diagnostic.set_loclist()<CR>
+" nnoremap <silent> [c          <cmd>lua vim.lsp.diagnostic.goto_prev { wrap = false }<CR>
+" nnoremap <silent> ]c          <cmd>lua vim.lsp.diagnostic.goto_next { wrap = false }<CR>
+
+"-----------------------------------------------------------------------------
+" nvim-lsp Settings
+"-----------------------------------------------------------------------------
+" If you just use the latest stable version, then setting this isn't necessary
+let g:metals_server_version = '0.9.8+10-334e402e-SNAPSHOT'
+
+"-----------------------------------------------------------------------------
+" nvim-metals setup with a few additions such as nvim-completions
+"-----------------------------------------------------------------------------
+:lua << EOF
+  metals_config = require'metals'.bare_config()
+  metals_config.settings = {
+     showImplicitArguments = true,
+     excludedPackages = {
+       "akka.actor.typed.javadsl",
+       "com.github.swagger.akka.javadsl"
+     }
+  }
+
+  metals_config.on_attach = function()
+    require'completion'.on_attach();
+  end
+
+  metals_config.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+    vim.lsp.diagnostic.on_publish_diagnostics, {
+      virtual_text = {
+        prefix = '',
+      }
+    }
+  )
+EOF
+
+if has('nvim-0.5')
+  augroup lsp
+    au!
+    au FileType scala,sbt lua require('metals').initialize_or_attach(metals_config)
+  augroup end
+endif
+
+"-----------------------------------------------------------------------------
+" completion-nvim settings
+"-----------------------------------------------------------------------------
+" Use <Tab> and <S-Tab> to navigate through popup menu
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+"-----------------------------------------------------------------------------
+" Helpful general settings
+"-----------------------------------------------------------------------------
+" Needed for compltions _only_ if you aren't using completion-nvim
+autocmd FileType scala setlocal omnifunc=v:lua.vim.lsp.omnifunc
+
+" Set completeopt to have a better completion experience
+set completeopt=menuone,noinsert,noselect
+
+" Avoid showing message extra message when using completion
+set shortmess+=c
+
+" Ensure autocmd works for Filetype
+set shortmess-=F
+
+nmap <S-Right> <Plug>(sexp_capture_next_element)<Plug>(sexp_indent)
+nmap <S-Left> <Plug>(sexp_emit_tail_element)<Plug>(sexp_indent)
+imap <S-Right> <C-O><Plug>(sexp_capture_next_element)<C-O><Plug>(sexp_indent)
+imap <S-Left> <C-O><Plug>(sexp_emit_tail_element)<C-O><Plug>(sexp_indent)
+vmap <e <Plug>(sexp_swap_element_backward)
+vmap >e <Plug>(sexp_swap_element_forward)
+
+
+autocmd FileType clojure  autocmd  BufWritePost <buffer> call CocActionAsync('format')

@@ -1,5 +1,6 @@
 {
-  "coc.preferences.formatOnSaveFiletypes": ["js", "css", "ts", "jsx"],
+  "coc.preferences.formatOnType":true,
+  "coc.preferences.formatOnSaveFiletypes": ["js", "css", "ts", "jsx", "clj", "cljs"],
   "eslint.autoFixOnSave":true,
   "eslint.run": "onSave",
   "prettier.eslintIntegration": true,
@@ -11,12 +12,14 @@
   "languageserver": {
     "clojure-lsp": {
       "command": "clojure-lsp",
-      "filetypes": ["clojure"],
+      "filetypes": ["clojure", "clojurescript"],
+      "disableDiagnostics": false,
       "rootPatterns": ["project.clj", "deps.edn"],
       "additionalSchemes": ["jar", "zipfile"],
       "trace.server": "verbose",
       "initializationOptions": {
-        "ignore-classpath-directories": true
+        "ignore-classpath-directories": true,
+        "cljfmt-config-path": ".cljfmt.clj"
       }
     },
       "haskell": {
