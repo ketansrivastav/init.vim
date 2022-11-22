@@ -1,18 +1,18 @@
 set termguicolors
 set background=dark
 let g:goyo_width = 120
-" let g:clipboard = {
-"   \   'name': 'xclip-xfce4-clipman',
-"   \   'copy': {
-"   \      '+': 'xclip -selection clipboard',
-"   \      '*': 'xclip -selection clipboard',
-"   \    },
-"   \   'paste': {
-"   \      '+': 'xclip -selection clipboard -o',
-"   \      '*': 'xclip -selection clipboard -o',
-"   \   },
-"   \   'cache_enabled': 1,
-"   \ }
+let g:clipboard = {
+  \   'name': 'xclip-xfce4-clipman',
+  \   'copy': {
+  \      '+': 'xclip -selection clipboard',
+  \      '*': 'xclip -selection clipboard',
+  \    },
+  \   'paste': {
+  \      '+': 'xclip -selection clipboard -o',
+  \      '*': 'xclip -selection clipboard -o',
+  \   },
+  \   'cache_enabled': 1,
+  \ }
 call plug#begin('~/.config/nvim/plugged')
 Plug 'nvim-lua/plenary.nvim'
 Plug 'vim-airline/vim-airline'
@@ -21,7 +21,9 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'morhetz/gruvbox'
 Plug 'retorillo/airline-tablemode.vim'
 Plug 'ryanoasis/vim-webdevicons'
-Plug 'scrooloose/nerdtree'
+" Plug 'scrooloose/nerdtree'
+Plug 'nvim-tree/nvim-web-devicons' " optional, for file icons
+Plug 'nvim-tree/nvim-tree.lua'
 " Plug 'tsony-tsonev/nerdtree-git-plugin'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'ryanoasis/vim-devicons'
@@ -36,7 +38,7 @@ Plug 'mhinz/vim-signify'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 Plug 'haya14busa/incsearch.vim'
-" Plug 'prettier/vim-prettier', { 'do': 'npm install' }
+Plug 'prettier/vim-prettier', { 'do': 'npm install' }
 Plug 'kien/ctrlp.vim'
 "clojure plugins
 Plug 'Olical/conjure', {'tag': 'v4.35.1'}
@@ -83,6 +85,16 @@ Plug 'purescript-contrib/purescript-vim'
 Plug  'nvim-lua/plenary.nvim'
 Plug 'scalameta/coc-metals', {'do': 'yarn install --frozen-lockfile'}
 Plug 'scalameta/nvim-metals'
+
+
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
+
+" Plug 'williamboman/mason.nvim'
+Plug 'davidbeckingsale/writegood.vim'
+
+Plug 'nvim-tree/nvim-web-devicons' " Recommended (for coloured icons)
+" Plug 'ryanoasis/vim-devicons' Icons without colours
+Plug 'akinsho/bufferline.nvim', { 'tag': 'v3.*' }
 call plug#end()
 " let mapleader = "\<space>"
 "
@@ -98,10 +110,9 @@ let g:neovide_cursor_vfx_particle_phase=1.5
 " let g:deoplete#enable_at_startup = 1
 " let g:LanguageClient_autoStart = 1
 let g:ctrlp_working_path_mode = 0
-let g:NERDTreeGitStatusWithFlags = 1
 
 let g:rainbow_active = 1
-" markdown: do not close the preview tab when switching to other buffers
+" markdown: do not close tke preview tab when switching to other buffers
 let g:mkdp_auto_close = 0
 
 "colorscheme gruvbox 
@@ -184,7 +195,6 @@ set hlsearch
 "let g:airline#extensions#tabline#show_tab_type = 1
 " autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 " to close terminal emulator
-tnoremap <Esc> <C-\><C-n>
 
 set expandtab
 " show existing tab with 2 spaces width
@@ -198,7 +208,7 @@ nnoremap <leader>[ :bp <cr>
 set wildcharm=<Tab>
 set wildmenu
 set wildmode=full
-nnoremap <Tab> :buffer<Space><Tab>
+nnoremap <Tab> :Telescope buffers<CR>
 
 set hidden
 
@@ -243,7 +253,7 @@ let g:coc_global_extensions = [
 " when running at every change you may want to disable quickfix
 " let g:prettier#quickfix_enabled = 0
 
-let g:prettier#autoformat = 0
+let g:prettier#autoformat = 1
 " autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
 function! s:swap_lines(n1, n2)
     let line1 = getline(a:n1)
@@ -320,8 +330,8 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 nmap <leader>rn <Plug>(coc-rename)
 
 " Formatting selected code.
-" nmap <leader>fd  <Plug>(coc-format-selected)
-" nmap <leader>fa  <Plug>(coc-format-buf)
+nmap   <leader>fd  <Plug>(coc-format-selected)
+nmap <leader>fa  <Plug>(coc-format-buf)
 
 
 nnoremap <silent> cram      :call CocAction('runCommand', 'lsp-clojure-add-missing-libspec')<CR>
@@ -413,27 +423,43 @@ let g:fzf_layout = { 'window': { 'width': 1, 'height': 0.4, 'yoffset': 1, 'borde
 
 command! -nargs=0 Prettier :CocCommand prettier.forceFormatDocument
 
-let NERDTreeMinimalUI=1
-nnoremap <expr> <C-n>  g:NERDTree.IsOpen() ? "\:NERDTreeClose<CR>" : bufexists(expand('%')) ? "\:NERDTreeFind<CR>" : "\:NERDTree<CR>" 
+let g:toggleTree = 0
+function! ToggleAndSelectinTree()
+  if(g:toggleTree == 1) 
+    let g:toggleTree = 0
+    execute 'NvimTreeFindFile'
+  else
+    let g:toggleTree = 1
+    execute 'NvimTreeToggle'
+  endif
+
+endfunc
+
+ nmap <C-n> :call ToggleAndSelectinTree()<CR>
 nmap <leader>g :Goyo<CR>
 nnoremap <leader>n :call NumberToggle()<cr>
 " Shift + J/K moves selected lines down/up in visual mode
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 
+inoremap <expr> <TAB> pumvisible() ? "<C-y>" : "<TAB>"
+
 noremap <Up> <NOP>
 noremap <Down> <NOP>
 noremap <Left> <NOP>
 nnoremap <Right> <NOP>
 nmap <leader>u :UndotreeToggle<CR>
-nmap <C-z> :BLines<CR>
-nmap <Leader>b :Buffers<CR>
-nmap <Leader>F :GFiles<CR>
-nmap <Leader>a :Ag<CR>
+nmap <space>, :Telescope current_buffer_fuzzy_find<CR>
+nmap <space>b :Telescope buffers<CR>
+nmap <space>f :Telescope find_files<CR>
+nmap <space>l :Telescope live_grep<CR>
+" nmap <leader>F :Ranger <CR>
 map <Leader>s :setlocal spell spelllang=en_us <CR>
 nmap <C-a>:vnew \| r ! sh shellescape(expand('#')) <CR>
 nmap <leader>g :Goyo<CR>
-map gf :edit <cfile><CR>
+
+" nmap <Esc> <C-\><C-n>
+" map gf :edit <cfile><CR>
 
 " nnoremap <silent> gd          <cmd>lua vim.lsp.buf.definition()<CR>
 " nnoremap <silent> K           <cmd>lua vim.lsp.buf.hover()<CR>
@@ -480,6 +506,38 @@ let g:metals_server_version = '0.9.8+10-334e402e-SNAPSHOT'
       }
     }
   )
+
+
+-- examples for your init.lua
+
+-- disable netrw at the very start of your init.lua (strongly advised)
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
+-- set termguicolors to enable highlight groups
+vim.opt.termguicolors = true
+
+-- empty setup using defaults
+require("nvim-tree").setup()
+
+-- OR setup with some options
+require("nvim-tree").setup({
+  sort_by = "case_sensitive",
+  view = {
+    adaptive_size = true,
+    mappings = {
+      list = {
+        { key = "u", action = "dir_up" },
+      },
+    },
+  },
+  renderer = {
+    group_empty = true,
+  },
+  filters = {
+    dotfiles = true,
+  },
+})
 EOF
 
 if has('nvim-0.5')
@@ -520,3 +578,9 @@ vmap >e <Plug>(sexp_swap_element_forward)
 
 
 autocmd FileType clojure  autocmd  BufWritePost <buffer> call CocActionAsync('format')
+
+" In your init.lua or init.vim
+set termguicolors
+lua << EOF
+require("bufferline").setup{}
+EOF

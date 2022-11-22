@@ -1,6 +1,6 @@
 {
   "coc.preferences.formatOnType":true,
-  "coc.preferences.formatOnSaveFiletypes": ["js", "css", "ts", "jsx", "clj", "cljs"],
+  "coc.preferences.formatOnSaveFiletypes": ["js","html", "css", "ts", "jsx", "clj", "cljs"],
   "eslint.autoFixOnSave":true,
   "eslint.run": "onSave",
   "prettier.eslintIntegration": true,
