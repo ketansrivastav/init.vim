@@ -96,6 +96,7 @@ Plug 'nvim-tree/nvim-web-devicons' " Recommended (for coloured icons)
 Plug 'akinsho/bufferline.nvim', { 'tag': 'v3.*' }
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'wlangstroth/vim-racket'
+Plug 'stevearc/oil.nvim'
 " Plug 'akinsho/flutter-tools.nvim'
 call plug#end()
 " let mapleader = "\<space>"
@@ -513,6 +514,8 @@ let g:metals_server_version = '0.9.8+10-334e402e-SNAPSHOT'
     "
 :lua << EOF
 -- examples for your init.lua
+
+require("oil").setup()
 
 -- disable netrw at the very start of your init.lua (strongly advised)
 vim.g.loaded_netrw = 1
