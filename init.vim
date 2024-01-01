@@ -76,10 +76,9 @@ Plug 'mhinz/vim-startify'
 Plug 'mbbill/undotree'
 Plug 'kdheepak/lazygit.nvim', { 'branch': 'nvim-v0.4.3' }
 Plug 'justinmk/vim-sneak'
-Plug 'elihukter173/dirbuf.nvim'
 " Plug 'lukas-reineke/indent-blankline.nvim'
 " copilot
-Plug 'github/copilot.vim'
+" Plug 'github/copilot.vim'
 Plug 'purescript-contrib/purescript-vim'
 
 Plug  'nvim-lua/plenary.nvim'
@@ -95,6 +94,9 @@ Plug 'davidbeckingsale/writegood.vim'
 Plug 'nvim-tree/nvim-web-devicons' " Recommended (for coloured icons)
 " Plug 'ryanoasis/vim-devicons' Icons without colours
 Plug 'akinsho/bufferline.nvim', { 'tag': 'v3.*' }
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'wlangstroth/vim-racket'
+" Plug 'akinsho/flutter-tools.nvim'
 call plug#end()
 " let mapleader = "\<space>"
 "
@@ -337,13 +339,6 @@ nmap <leader>fa  <Plug>(coc-format-buf)
 nnoremap <silent> cram      :call CocAction('runCommand', 'lsp-clojure-add-missing-libspec')<CR>
 nnoremap <silent> crcn      :call CocAction('runCommand', 'lsp-clojure-clean-ns')<CR>
 nnoremap <silent> crf      :call CocActionAsync('format')<CR>
-augroup mygroup
-  autocmd!
-  " Setup formatexpr specified filetype(s).
-  autocmd FileType typescript,json,javascript setl formatexpr=CocAction('formatSelected')
-  " Update signature help on jump placeholder.
-  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-augroup end
 
 " Applying codeAction to the selected region.
 " Example: `<leader>aap` for current paragraph
@@ -371,7 +366,9 @@ nmap <silent> <C-s> <Plug>(coc-range-select)
 xmap <silent> <C-s> <Plug>(coc-range-select)
 
 " Add `:Format` command to format current buffer.
-command! -nargs=0 Format :call CocAction('format')
+" command! -nargs=0 Format :call CocAction('format')
+" command! -nargs=0 Format :call CocAction('format')
+
 
 " Add `:Fold` command to fold current buffer.
 command! -nargs=? Fold :call     CocAction('fold', <f-args>)
@@ -485,29 +482,36 @@ let g:metals_server_version = '0.9.8+10-334e402e-SNAPSHOT'
 "-----------------------------------------------------------------------------
 " nvim-metals setup with a few additions such as nvim-completions
 "-----------------------------------------------------------------------------
+  "metals_config = require'metals'.bare_config()
+  "metals_config.settings = {
+  "   showImplicitArguments = true,
+  "   excludedPackages = {
+  "     "akka.actor.typed.javadsl",
+  "     "com.github.swagger.akka.javadsl"
+  "   }
+  "}
+
+  "metals_config.on_attach = function()
+  "  require'completion'.on_attach();
+  "end
+
+  "metals_config.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+  "  vim.lsp.diagnostic.on_publish_diagnostics, {
+  "    virtual_text = {
+  "      prefix = '',
+  "    }
+  "  }
+  ")
+
+
+    " mappings = {
+    "   list = {
+    "     { key = "u", action = "dir_up" },
+    "   },
+    " },
+    "
+    "
 :lua << EOF
-  metals_config = require'metals'.bare_config()
-  metals_config.settings = {
-     showImplicitArguments = true,
-     excludedPackages = {
-       "akka.actor.typed.javadsl",
-       "com.github.swagger.akka.javadsl"
-     }
-  }
-
-  metals_config.on_attach = function()
-    require'completion'.on_attach();
-  end
-
-  metals_config.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-    vim.lsp.diagnostic.on_publish_diagnostics, {
-      virtual_text = {
-        prefix = '',
-      }
-    }
-  )
-
-
 -- examples for your init.lua
 
 -- disable netrw at the very start of your init.lua (strongly advised)
@@ -525,11 +529,6 @@ require("nvim-tree").setup({
   sort_by = "case_sensitive",
   view = {
     adaptive_size = true,
-    mappings = {
-      list = {
-        { key = "u", action = "dir_up" },
-      },
-    },
   },
   renderer = {
     group_empty = true,
@@ -538,14 +537,17 @@ require("nvim-tree").setup({
     dotfiles = true,
   },
 })
+
+
+require("bufferline").setup{}
 EOF
 
-if has('nvim-0.5')
-  augroup lsp
-    au!
-    au FileType scala,sbt lua require('metals').initialize_or_attach(metals_config)
-  augroup end
-endif
+" if has('nvim-0.5')
+"   augroup lsp
+"     au!
+"     au FileType scala,sbt lua require('metals').initialize_or_attach(metals_config)
+"   augroup end
+" endif
 
 "-----------------------------------------------------------------------------
 " completion-nvim settings
@@ -553,6 +555,7 @@ endif
 " Use <Tab> and <S-Tab> to navigate through popup menu
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
 
 "-----------------------------------------------------------------------------
 " Helpful general settings
@@ -577,10 +580,18 @@ vmap <e <Plug>(sexp_swap_element_backward)
 vmap >e <Plug>(sexp_swap_element_forward)
 
 
-autocmd FileType clojure  autocmd  BufWritePost <buffer> call CocActionAsync('format')
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json,javascript,css,scss,less setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder.
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+autocmd FileType clojure  autocmd  BufWritePost <buffer>:CljFmt <cr>
 
 " In your init.lua or init.vim
 set termguicolors
-lua << EOF
-require("bufferline").setup{}
-EOF
+
+highlight CopilotSuggestion guifg=#7fffd4 ctermfg=8
+
+au! BufRead,BufNewFile *.cljd setfiletype clojure
