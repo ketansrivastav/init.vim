@@ -1,18 +1,18 @@
 set termguicolors
 set background=dark
 let g:goyo_width = 120
-let g:clipboard = {
-  \   'name': 'xclip-xfce4-clipman',
-  \   'copy': {
-  \      '+': 'xclip -selection clipboard',
-  \      '*': 'xclip -selection clipboard',
-  \    },
-  \   'paste': {
-  \      '+': 'xclip -selection clipboard -o',
-  \      '*': 'xclip -selection clipboard -o',
-  \   },
-  \   'cache_enabled': 1,
-  \ }
+" let g:clipboard = {
+"   \   'name': 'xclip-xfce4-clipman',
+"   \   'copy': {
+"   \      '+': 'xclip -selection clipboard',
+"   \      '*': 'xclip -selection clipboard',
+"   \    },
+"   \   'paste': {
+"   \      '+': 'xclip -selection clipboard -o',
+"   \      '*': 'xclip -selection clipboard -o',
+"   \   },
+"   \   'cache_enabled': 1,
+"   \ }
 call plug#begin('~/.config/nvim/plugged')
 Plug 'nvim-lua/plenary.nvim'
 Plug 'vim-airline/vim-airline'
@@ -485,6 +485,7 @@ let g:metals_server_version = '0.9.8+10-334e402e-SNAPSHOT'
 "-----------------------------------------------------------------------------
 " nvim-metals setup with a few additions such as nvim-completions
 "-----------------------------------------------------------------------------
+
 :lua << EOF
   metals_config = require'metals'.bare_config()
   metals_config.settings = {
@@ -518,7 +519,7 @@ vim.g.loaded_netrwPlugin = 1
 vim.opt.termguicolors = true
 
 -- empty setup using defaults
-require("nvim-tree").setup()
+-- require("nvim-tree").setup()
 
 -- OR setup with some options
 require("nvim-tree").setup({
@@ -538,6 +539,13 @@ require("nvim-tree").setup({
     dotfiles = true,
   },
 })
+
+
+require("nvim-web-devicons").setup {
+ color_icons = true;
+ default = true;
+ strict = true;
+}
 EOF
 
 if has('nvim-0.5')
