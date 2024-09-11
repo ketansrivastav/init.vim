@@ -41,7 +41,7 @@ Plug 'haya14busa/incsearch.vim'
 Plug 'prettier/vim-prettier', { 'do': 'npm install' }
 Plug 'kien/ctrlp.vim'
 "clojure plugins
-Plug 'Olical/conjure', {'tag': 'v4.35.1'}
+Plug 'Olical/conjure' 
 Plug 'dmac/vim-cljfmt'
 Plug 'luochen1990/rainbow'
 Plug 'tpope/vim-sexp-mappings-for-regular-people'
@@ -98,6 +98,17 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'wlangstroth/vim-racket'
 Plug 'stevearc/oil.nvim'
 " Plug 'akinsho/flutter-tools.nvim'
+"
+Plug 'tpope/vim-dispatch'
+Plug 'clojure-vim/vim-jack-in'
+Plug 'radenling/vim-dispatch-neovim'
+
+
+Plug 'nikvdp/neochat'
+
+Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
+
+
 call plug#end()
 " let mapleader = "\<space>"
 "
@@ -514,6 +525,7 @@ let g:metals_server_version = '0.9.8+10-334e402e-SNAPSHOT'
     "
 :lua << EOF
 -- examples for your init.lua
+require("toggleterm").setup()
 
 require("oil").setup()
 
@@ -598,3 +610,6 @@ set termguicolors
 highlight CopilotSuggestion guifg=#7fffd4 ctermfg=8
 
 au! BufRead,BufNewFile *.cljd setfiletype clojure
+
+ autocmd User ConjureEval if expand("%:t") =~ "^conjure-log-" | exec "normal G" | endif
+
